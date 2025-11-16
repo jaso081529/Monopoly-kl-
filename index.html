@@ -962,7 +962,7 @@
             for (let i = 1; i <= gameState.playerCount; i++) {
                 const nameInput = document.getElementById(`player${i}Name`);
                 const colorOption = document.querySelector(`.color-option.selected[data-player="${i}"]`);
-                
+
                 gameState.players.push({
                     id: i - 1,
                     name: nameInput ? nameInput.value : `Spieler ${i}`,
@@ -975,16 +975,28 @@
                     color: colorOption ? colorOption.dataset.color : '#' + Math.floor(Math.random()*16777215).toString(16)
                 });
             }
-            
-            // Hide setup modal and show game
-            document.getElementById('setupModal').classList.remove('active');
-            document.getElementById('gameContainer').style.display = 'block';
-            
+
+            // Hide setup modal and start screen, then show game
+            const setupModal = document.getElementById('setupModal');
+            if (setupModal) {
+                setupModal.classList.remove('active');
+                setupModal.style.display = 'none';
+            }
+            const startScreen = document.getElementById('startScreen');
+            if (startScreen) {
+                startScreen.style.display = 'none';
+            }
+            const gameContainer = document.getElementById('gameContainer');
+            if (gameContainer) {
+                gameContainer.style.display = 'block';
+            }
+
             // Initialize board and game
             initializeBoard();
             updatePlayerInfo();
             addPlayerPieces();
             addToLog('Spiel gestartet! ' + gameState.players[0].name + ' ist am Zug.');
+        }
         }
 
         function addPlayerPieces() {
